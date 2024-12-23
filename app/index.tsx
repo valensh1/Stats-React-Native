@@ -1,10 +1,11 @@
 import { View, StyleSheet } from 'react-native';
-import SportIcons from '../components/SportsIcons';
+import Home from '../app/Home';
+import SportIcons from '../components/SportIcons';
 
-export default function Home() {
+export default function Index() {
   return (
     <View style={styles.container}>
-      <SportIcons />
+      <Home />
     </View>
   );
 }
