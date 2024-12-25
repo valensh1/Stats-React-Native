@@ -25,7 +25,7 @@ const SportIcons: React.FC<SportIconsProps> = ({
   const router = useRouter();
 
   const sportSelectionHandler = () => {
-    router.push('/SportPositions');
+    router.push(`/SportPositions/${sport}`);
   };
 
   let IconComponent;
@@ -52,9 +52,7 @@ const SportIcons: React.FC<SportIconsProps> = ({
 
   return (
     <View>
-      <Pressable
-        onPress={() => sportSelectionHandler()}
-        style={styles.container}>
+      <Pressable onPress={sportSelectionHandler} style={styles.container}>
         <Text>{sport}</Text>
         <IconComponent name={iconName} size={100} color="black" />
       </Pressable>
