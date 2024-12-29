@@ -1,19 +1,44 @@
 import { View, StyleSheet } from 'react-native';
-import Home from '../app/Home';
 import SportIcons from '../components/SportIcons';
+import { useRouter } from 'expo-router';
 
-export default function Index() {
+const Home = () => {
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
-      <Home />
+      <SportIcons
+        sport="Baseball"
+        iconName="baseball-bat"
+        iconLibrary="MaterialCommunityIcons"
+      />
+      <SportIcons
+        sport="Basketball"
+        iconName="basketball-outline"
+        iconLibrary="Iconicons"
+      />
+      <SportIcons
+        sport="Football"
+        iconName="american-football-outline"
+        iconLibrary="Iconicons"
+      />
+      <SportIcons
+        sport="Hockey"
+        iconName="sports-hockey"
+        iconLibrary="MaterialIcons"
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
+    height: '100%',
+    width: '100%',
+    marginTop: '-10%',
   },
 });
+
+export default Home;

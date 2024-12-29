@@ -25,7 +25,7 @@ const SportIcons: React.FC<SportIconsProps> = ({
   const router = useRouter();
 
   const sportSelectionHandler = () => {
-    router.push(`/SportPositions/${sport}`);
+    router.push(`/sportPositions/${sport}`);
   };
 
   let IconComponent;
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 50,
+    marginTop: '15%',
   },
 });
 export default SportIcons;

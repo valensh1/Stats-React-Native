@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
 const SportPosition: React.FC = () => {
@@ -22,20 +21,11 @@ const SportPosition: React.FC = () => {
 
   const choosePositionHandler = (position: string) => {
     console.log(`This is the position that was clicked ${position}`);
-    // router.push(`/SportPositions/${sport}/${position}`);
+    router.push(`/sportPositions/${sport}/${position}`);
   };
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => router.back()}>
-        <Ionicons
-          style={styles.arrow}
-          name="arrow-back"
-          size={30}
-          color="black"
-        />
-      </Pressable>
-      <Text style={styles.heading}>Choose Position</Text>
       <View style={styles.positionButtonContainer}>
         {positions.map((position) => {
           return (
@@ -58,17 +48,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
-  },
-  heading: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    borderColor: '1px solid black',
-    marginBottom: '10%',
-  },
-  arrow: {
-    position: 'relative',
-    top: '-500%',
-    right: '42%',
   },
   positionButtonContainer: {
     width: '50%',
