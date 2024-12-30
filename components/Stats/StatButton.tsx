@@ -3,26 +3,30 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface StatButtonProps {
   buttonText: string;
-  stats?: () => void;
+  stats?: (stat: string) => void;
 }
 
 const StatButton = ({ buttonText, stats }: StatButtonProps) => {
-  const statHandler = () => {
+  const statHandler = (stat: string) => {
     if (stats) {
-      stats();
+      stat === 'increment' ? stats('increment') : stats('decrement');
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={statHandler} style={styles.statButton}>
-        <Text style={styles.buttonText}>{buttonText}</Text>
-        <View style={styles.incrementButtons}>
-          <TouchableOpacity>
-            <Text>-</Text>
+      <Text style={styles.buttonTitle}>{buttonText}</Text>
+      <TouchableOpacity style={styles.statButton}>
+        <View style={styles.incrementButtonContainer}>
+          <TouchableOpacity
+            onPress={() => statHandler('decrement')}
+            style={styles.incrementButton}>
+            <Text style={styles.buttonText}>-</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Text>+</Text>
+          <TouchableOpacity
+            onPress={() => statHandler('increment')}
+            style={styles.incrementButton}>
+            <Text style={styles.buttonText}>+</Text>
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -33,23 +37,32 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: '5%',
     marginTop: '5%',
+    width: '50%',
   },
   statButton: {
-    backgroundColor: 'orange',
-    minHeight: '30%',
-    minWidth: '30%',
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '50%',
   },
-  buttonText: {
+  buttonTitle: {
     fontSize: 20,
     fontWeight: 'bold',
   },
-  incrementButtons: {
+  buttonText: {
+    fontSize: 35,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+  },
+  incrementButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '35%',
+    width: '50%',
+  },
+  incrementButton: {
+    backgroundColor: 'blue',
+    borderRadius: 5,
+    color: 'white',
+    width: '50%',
+    margin: 5,
   },
 });
 export default StatButton;
