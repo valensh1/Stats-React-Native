@@ -1,23 +1,12 @@
 import React from 'react';
+import sportPositions from '../../../Database/positions';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
 const SportPosition: React.FC = () => {
   const router = useRouter();
-  const { sport } = useLocalSearchParams<{ sport: string }>();
-  const positions = [];
-
-  switch (sport.toLowerCase()) {
-    case 'baseball':
-      positions.push('Pitcher', 'Fielder');
-      break;
-    case 'football':
-      positions.push('Offense', 'Defense');
-      break;
-    case 'hockey':
-      positions.push('Goalie', 'Skater');
-      break;
-  }
+  const { sport } = useLocalSearchParams<{ sport: string }>(); // Retrieves the sport from the URL path
+  const positions: string[] = sportPositions[sport.toLowerCase()]; // Retrieves the sport positions
 
   const choosePositionHandler = (position: string) => {
     console.log(`This is the position that was clicked ${position}`);

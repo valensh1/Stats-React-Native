@@ -20,7 +20,7 @@ const RootLayout = () => {
         }}
       />
       <Stack.Screen
-        name="sportPositions/[sport]/[...position]"
+        name="sportPositions/[sport]/[position]"
         options={{
           headerTitle: 'Stats',
           headerTitleAlign: 'center',

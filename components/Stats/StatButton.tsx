@@ -3,29 +3,32 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 interface StatButtonProps {
   buttonText: string;
-  stats?: () => void;
+  stats?: (direction: string, stat: string) => void;
 }
 
 const StatButton = ({ buttonText, stats }: StatButtonProps) => {
-  const statHandler = () => {
+  const statHandler = (direction: string, stat: string) => {
     if (stats) {
-      stats();
+      stats(direction, stat);
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={statHandler} style={styles.statButton}>
-        <Text style={styles.buttonText}>{buttonText}</Text>
-        <View style={styles.incrementButtons}>
-          <TouchableOpacity>
-            <Text>-</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text>+</Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
+      <Text style={styles.buttonText}>{buttonText}</Text>
+      <View style={styles.incrementButtons}>
+        <TouchableOpacity
+          onPress={() => statHandler('decrement', buttonText)}
+          style={styles.statButton}>
+          <Text>-</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => statHandler('increment', buttonText)}
+          style={styles.statButton}>
+          <Text>+</Text>
+        </TouchableOpacity>
+      </View>
+      {/* </TouchableOpacity> */}
     </View>
   );
 };

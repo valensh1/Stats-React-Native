@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useRouter, useGlobalSearchParams } from 'expo-router';
-import HockeyGoalieStats from './Hockey/HockeyGoalieStatTotals';
 import StatButton from './StatButton';
-import HockeyGoalieStatTotals from './Hockey/HockeyGoalieStatTotals';
 
 const Stats: React.FC = () => {
   const { position } = useGlobalSearchParams<{ position: string }>();
 
   const [stats, setStats] = useState(0);
 
-  const statCounter = () => {
-    setStats((prev) => prev + 1);
+  const statCounter = (direction: string, stat: string) => {
+    if (direction === 'increment') {
+      setStats((prev) => prev + 1);
+    } else if (direction === 'decrement') {
+      setStats((prev) => prev - 1);
+    }
     console.log(stats);
   };
 
@@ -22,7 +24,6 @@ const Stats: React.FC = () => {
           <View>
             <Text>Hockey Goalie</Text>
           </View>
-          <HockeyGoalieStatTotals />
           <View style={styles.buttonsContainer}>
             <StatButton stats={statCounter} buttonText={'Saves'} />
             <StatButton buttonText={'Goals'} />
