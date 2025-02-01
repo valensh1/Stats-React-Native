@@ -2,6 +2,7 @@ import { View, StyleSheet } from 'react-native';
 import SportIcons from '../components/SportIcons';
 import { useRouter } from 'expo-router';
 
+//! Choose Sport Page
 const Home = () => {
   const router = useRouter();
 

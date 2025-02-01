@@ -3,6 +3,7 @@ import sportPositions from '../../../Database/positions';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
+//! Choose Position Page
 const SportPosition: React.FC = () => {
   const router = useRouter();
   const { sport } = useLocalSearchParams<{ sport: string }>(); // Retrieves the sport from the URL path

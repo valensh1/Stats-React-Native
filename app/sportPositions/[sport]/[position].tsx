@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
+import { useNavigation } from 'expo-router';
 import statCategories from '../../../Database/statCategories';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import StatCalcs from '../../../Database/statCalcs';
+import HelperFunctions from '../../../Utils/HelperFunctions';
 
+//! Stat Counter Page
 const StatsPage: React.FC = () => {
   //? Variables
   let { sport, position } = useLocalSearchParams<{
@@ -13,10 +17,9 @@ const StatsPage: React.FC = () => {
   console.log(
     `This is the sport -> ${sport} and this is the position -> ${position}`
   );
+  const navigation = useNavigation();
   sport = sport.toLowerCase();
   position = position.toLowerCase();
-
-  const statsToCalc = statCategories[sport][`${position}Calcs`];
 
   //? UseRef
   let resetAllStats = useRef<{ [key: string]: number }>({});
@@ -24,11 +27,14 @@ const StatsPage: React.FC = () => {
   //? UseState
   const [stats, setStats] = useState<{ [key: string]: number }>({});
   const [calculatedStats, setCalculatedStats] = useState<{
-    [key: string]: number;
+    [key: string]: number | string;
   }>({});
 
   //? UseEffect
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: `${HelperFunctions.capitalizeFirstLetter(position)} Stats`,
+    });
     const obj: { [key: string]: number } = {};
     const categories = statCategories[sport][position];
     for (let category of categories) {
@@ -37,8 +43,50 @@ const StatsPage: React.FC = () => {
     console.log(obj);
     resetAllStats.current = { ...obj }; // Sets useRef with all stats at 0 when clear all button is pressed
     setStats(obj); // Sets all the stats related to sport at 0
-    console.log(`This is the stats ${JSON.stringify(stats)}`);
+
+    const calculatedStatsObj: { [key: string]: number } = {};
+    const statsToCalc = statCategories[sport][`${position}Calcs`];
+    statsToCalc.forEach((stat) => {
+      console.log(`This is each STAT -> ${stat}`);
+      calculatedStatsObj[stat] = 0;
+    });
+    setCalculatedStats(calculatedStatsObj);
   }, []);
+
+  useEffect(() => {
+    const statCalcs = new StatCalcs();
+    switch (sport) {
+      case 'hockey': {
+        if (position === 'goalie') {
+          const shotsOnGoal = statCalcs.hockey.goalie.shotsOnGoal(
+            stats.Goals,
+            stats.Saves
+          );
+          console.log(`This is the shots on goal ${shotsOnGoal}`);
+
+          const savePercentage = statCalcs.hockey.goalie.savePercentage(
+            stats.Saves,
+            shotsOnGoal
+          );
+          console.log(`This is the save % ${savePercentage}`);
+          setCalculatedStats({
+            ...calculatedStats,
+            SOG: shotsOnGoal,
+            ['Save %']: savePercentage,
+          });
+        } else if (position === 'skater') {
+          //! Need to code the stats for skater here!!!!
+          // const points = statCalcs.hockey.skater.points(
+          //   stats.goals,
+          //   stats.assists
+          // );
+          // setCalculatedStats({ ...calculatedStats, points: points });
+        } else {
+          console.log(`No position with calculated stats found`);
+        }
+      }
+    }
+  }, [stats]);
 
   //? Functions
   const statHandler = (stat: string, direction: string): void => {
@@ -69,15 +117,21 @@ const StatsPage: React.FC = () => {
 
   //? JSX
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>{statsToCalc[0]}</Text>
-        <Text>{statsToCalc[1]}</Text>
+    <View style={styles.overallContainer}>
+      <View style={styles.statsCalcs}>
+        {Object.keys(calculatedStats).map((stat) => {
+          return (
+            <View key={stat}>
+              <Text key={stat}>{stat}</Text>
+              <Text key={`${stat}2`}>{calculatedStats[stat]}</Text>
+            </View>
+          );
+        })}
       </View>
       {Object.keys(stats).map((stat) => {
         return (
-          <View style={styles.mainContent} key={stat}>
-            <View style={styles.statContainer}>
+          <View style={styles.statCountersContainer} key={stat}>
+            <View style={styles.singleStatContainer}>
               <Text style={styles.categoryText}>{stat}</Text>
               <Text style={styles.statText}>{stats[stat]}</Text>
             </View>
@@ -113,41 +167,53 @@ const StatsPage: React.FC = () => {
 
 //? CSS Styling
 const styles = StyleSheet.create({
-  container: {
+  overallContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    width: '100%',
+    backgroundColor: '#f9f9f9', // Optional for better visibility
   },
-  mainContent: {
+  statsCalcs: {
+    flex: 1, // Take up equal space
+    flexDirection: 'row',
+    justifyContent: 'space-around', // Evenly distribute categories
+    alignItems: 'center', // Center items vertically
+    borderBottomWidth: 1, // Optional: add a separator
+    borderColor: '#ccc',
+    marginBottom: '10%', // Space between stat categories and stat items
+  },
+  statCountersContainer: {
+    flex: 9,
     width: '100%',
     alignItems: 'center',
+    marginVertical: 15, // Space between stat items
   },
-  statContainer: {
-    alignContent: 'center',
-    justifyContent: 'center',
+  singleStatContainer: {
     alignItems: 'center',
+    marginBottom: 10, // Space between text and buttons
   },
   incrementIconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '40%',
+    width: '60%', // Wider spacing for buttons
   },
   clearButton: {
     backgroundColor: 'yellow',
     borderColor: 'black',
     borderWidth: 2,
     borderRadius: 5,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   clearButtonText: {
     fontWeight: '700',
   },
   categoryText: {
-    fontSize: 25,
+    fontSize: 20,
+    fontWeight: '600',
   },
   statText: {
-    fontSize: 20,
+    fontSize: 18,
   },
 });
 export default StatsPage;
