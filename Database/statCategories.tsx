@@ -21,7 +21,7 @@ const statCategories: SportStatCategories = {
       'Field Goal %',
       'Free Throw %',
     ],
-    guardCalcs: ['Test'],
+    guardCalcs: ['PTS'],
   },
 };
 export default statCategories;

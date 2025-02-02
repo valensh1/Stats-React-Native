@@ -109,7 +109,6 @@ const StatsPage: React.FC = () => {
   };
 
   const clearAllStats = (): void => {
-    console.log('Clear stat button clicked');
     setStats(resetAllStats.current);
   };
 
@@ -130,6 +129,16 @@ const StatsPage: React.FC = () => {
             </View>
           );
         })}
+      </View>
+      <View style={styles.gameControls}>
+        <Pressable>
+          <Text style={styles.gameControlButton} onPress={clearAllStats}>
+            CLEAR ALL
+          </Text>
+        </Pressable>
+        <Pressable>
+          <Text style={styles.gameControlButton}>GAME OVER</Text>
+        </Pressable>
       </View>
       <ScrollView style={styles.statsContainerScrollContainer}>
         {/* STATS SECTION */}
@@ -200,6 +209,15 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: 'white',
     textAlign: 'center',
+  },
+  gameControls: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  gameControlButton: {
+    color: 'red',
+    fontWeight: 800,
   },
   statsContainerScrollContainer: {
     flexGrow: 1,
