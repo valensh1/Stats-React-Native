@@ -76,11 +76,12 @@ const StatsPage: React.FC = () => {
           });
         } else if (position === 'skater') {
           //! Need to code the stats for skater here!!!!
-          // const points = statCalcs.hockey.skater.points(
-          //   stats.goals,
-          //   stats.assists
-          // );
-          // setCalculatedStats({ ...calculatedStats, points: points });
+          console.log('This is a SKATER DUDE!!!');
+          const points = statCalcs.hockey.skater.points(
+            stats.Goals,
+            stats.Assists
+          );
+          setCalculatedStats({ ...calculatedStats, points });
         } else {
           console.log(`No position with calculated stats found`);
         }
