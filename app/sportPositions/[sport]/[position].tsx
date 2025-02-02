@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useNavigation } from 'expo-router';
 import statCategories from '../../../Database/statCategories';
@@ -10,16 +10,14 @@ import HelperFunctions from '../../../Utils/HelperFunctions';
 //! Stat Counter Page
 const StatsPage: React.FC = () => {
   //? Variables
+  // Retrieves and destructures sport and position from the URL
   let { sport, position } = useLocalSearchParams<{
     sport: string;
     position: string;
-  }>(); // Retrieves and destructures sport and position from the URL
-  console.log(
-    `This is the sport -> ${sport} and this is the position -> ${position}`
-  );
-  const navigation = useNavigation();
+  }>();
   sport = sport.toLowerCase();
   position = position.toLowerCase();
+  const navigation = useNavigation();
 
   //? UseRef
   let resetAllStats = useRef<{ [key: string]: number }>({});
@@ -31,6 +29,7 @@ const StatsPage: React.FC = () => {
   }>({});
 
   //? UseEffect
+  // Initial Loading of Stat Counter page code
   useEffect(() => {
     navigation.setOptions({
       headerTitle: `${HelperFunctions.capitalizeFirstLetter(position)} Stats`,
@@ -38,17 +37,17 @@ const StatsPage: React.FC = () => {
     const obj: { [key: string]: number } = {};
     const categories = statCategories[sport][position];
     for (let category of categories) {
-      obj[category] = 0;
+      obj[category.toLowerCase()] = 0;
     }
     console.log(obj);
-    resetAllStats.current = { ...obj }; // Sets useRef with all stats at 0 when clear all button is pressed
+    resetAllStats.current = { ...obj }; // Sets useRef with all stats at 0 when clear button is pressed
     setStats(obj); // Sets all the stats related to sport at 0
 
     const calculatedStatsObj: { [key: string]: number } = {};
     const statsToCalc = statCategories[sport][`${position}Calcs`];
     statsToCalc.forEach((stat) => {
       console.log(`This is each STAT -> ${stat}`);
-      calculatedStatsObj[stat] = 0;
+      calculatedStatsObj[stat.toLowerCase()] = 0;
     });
     setCalculatedStats(calculatedStatsObj);
   }, []);
@@ -59,31 +58,29 @@ const StatsPage: React.FC = () => {
       case 'hockey': {
         if (position === 'goalie') {
           const shotsOnGoal = statCalcs.hockey.goalie.shotsOnGoal(
-            stats.Goals,
-            stats.Saves
+            stats.goals,
+            stats.saves
           );
           console.log(`This is the shots on goal ${shotsOnGoal}`);
 
           const savePercentage = statCalcs.hockey.goalie.savePercentage(
-            stats.Saves,
+            stats.saves,
             shotsOnGoal
           );
           console.log(`This is the save % ${savePercentage}`);
           setCalculatedStats({
             ...calculatedStats,
-            SOG: shotsOnGoal,
-            ['Save %']: savePercentage,
+            sog: shotsOnGoal,
+            ['save %']: savePercentage,
           });
         } else if (position === 'skater') {
-          //! Need to code the stats for skater here!!!!
-          console.log('This is a SKATER DUDE!!!');
           const points = statCalcs.hockey.skater.points(
-            stats.Goals,
-            stats.Assists
+            stats.goals,
+            stats.assists
           );
           setCalculatedStats({ ...calculatedStats, points });
         } else {
-          console.log(`No position with calculated stats found`);
+          console.log(`NO POSITION WITH CALCULATED STATS FOUND!!!`);
         }
       }
     }
@@ -119,49 +116,59 @@ const StatsPage: React.FC = () => {
   //? JSX
   return (
     <View style={styles.overallContainer}>
+      {/* CALCULATION SECTION */}
       <View style={styles.statsCalcs}>
         {Object.keys(calculatedStats).map((stat) => {
           return (
             <View key={stat}>
-              <Text key={stat}>{stat}</Text>
-              <Text key={`${stat}2`}>{calculatedStats[stat]}</Text>
+              <Text key={stat} style={styles.calculatedStatCategoryText}>
+                {stat.toUpperCase()}
+              </Text>
+              <Text key={`${stat}2`} style={styles.calculatedStatText}>
+                {calculatedStats[stat]}
+              </Text>
             </View>
           );
         })}
       </View>
-      {Object.keys(stats).map((stat) => {
-        return (
-          <View style={styles.statCountersContainer} key={stat}>
-            <View style={styles.singleStatContainer}>
-              <Text style={styles.categoryText}>{stat}</Text>
-              <Text style={styles.statText}>{stats[stat]}</Text>
+      <ScrollView style={styles.statsContainerScrollContainer}>
+        {/* STATS SECTION */}
+        {Object.keys(stats).map((stat) => {
+          return (
+            <View style={styles.statCountersContainer} key={stat}>
+              <View style={styles.singleStatContainer}>
+                <Text style={styles.categoryText}>
+                  {HelperFunctions.capitalizeFirstLetter(stat)}
+                </Text>
+                <Text style={styles.statText}>{stats[stat]}</Text>
+              </View>
+              <View style={styles.incrementIconContainer}>
+                <Pressable>
+                  <AntDesign
+                    name="minussquare"
+                    size={40}
+                    color="#0080C6"
+                    onPress={() => statHandler(stat, 'minus')}
+                  />
+                </Pressable>
+                <Pressable>
+                  <AntDesign
+                    name="plussquare"
+                    size={40}
+                    color="#0080C6"
+                    onPress={() => statHandler(stat, 'plus')}
+                  />
+                </Pressable>
+                <Pressable
+                  style={styles.clearButton}
+                  onPress={() => clearSingleStat(stat)}>
+                  <Text style={styles.clearButtonText}>Clear</Text>
+                </Pressable>
+              </View>
             </View>
-            <View style={styles.incrementIconContainer}>
-              <Pressable>
-                <AntDesign
-                  name="minussquare"
-                  size={40}
-                  color="#0080C6"
-                  onPress={() => statHandler(stat, 'minus')}
-                />
-              </Pressable>
-              <Pressable>
-                <AntDesign
-                  name="plussquare"
-                  size={40}
-                  color="#0080C6"
-                  onPress={() => statHandler(stat, 'plus')}
-                />
-              </Pressable>
-              <Pressable
-                style={styles.clearButton}
-                onPress={() => clearSingleStat(stat)}>
-                <Text style={styles.clearButtonText}>Clear</Text>
-              </Pressable>
-            </View>
-          </View>
-        );
-      })}
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };
@@ -170,31 +177,46 @@ const StatsPage: React.FC = () => {
 const styles = StyleSheet.create({
   overallContainer: {
     flex: 1,
-    backgroundColor: '#f9f9f9', // Optional for better visibility
+    backgroundColor: '#f9f9f9',
   },
   statsCalcs: {
-    flex: 1, // Take up equal space
+    flex: 0,
     flexDirection: 'row',
-    justifyContent: 'space-around', // Evenly distribute categories
-    alignItems: 'center', // Center items vertically
-    borderBottomWidth: 1, // Optional: add a separator
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderBottomWidth: 1,
     borderColor: '#ccc',
-    marginBottom: '10%', // Space between stat categories and stat items
+    marginBottom: '3%',
+    backgroundColor: '#0080C6',
+    padding: 7,
+  },
+  calculatedStatCategoryText: {
+    fontSize: 20,
+    fontWeight: 600,
+    color: 'white',
+  },
+  calculatedStatText: {
+    fontSize: 20,
+    fontWeight: 600,
+    color: 'white',
+    textAlign: 'center',
+  },
+  statsContainerScrollContainer: {
+    flexGrow: 1,
   },
   statCountersContainer: {
-    flex: 9,
     width: '100%',
     alignItems: 'center',
-    marginVertical: 15, // Space between stat items
+    marginVertical: 15,
   },
   singleStatContainer: {
     alignItems: 'center',
-    marginBottom: 10, // Space between text and buttons
+    marginBottom: 10,
   },
   incrementIconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '60%', // Wider spacing for buttons
+    width: '60%',
   },
   clearButton: {
     backgroundColor: 'yellow',

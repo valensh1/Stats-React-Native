@@ -26,7 +26,8 @@ class StatCalcs {
   }
 
   savePercentage(saves: number, totalShots: number) {
-    return ((saves / totalShots) * 100).toFixed(1);
+    const result = Number(((saves / totalShots) * 100).toFixed(1));
+    return isNaN(result) ? '0.0' : result.toFixed(1);
   }
 
   points(goals: number, assists: number) {

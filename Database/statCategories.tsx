@@ -11,5 +11,17 @@ const statCategories: SportStatCategories = {
     skater: ['Goals', 'Assists'],
     skaterCalcs: ['Points'],
   },
+  basketball: {
+    guard: [
+      'Points',
+      'Assists',
+      'Rebounds',
+      'Steals',
+      'Blocks',
+      'Field Goal %',
+      'Free Throw %',
+    ],
+    guardCalcs: ['Test'],
+  },
 };
 export default statCategories;
