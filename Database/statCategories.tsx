@@ -9,19 +9,15 @@ const statCategories: SportStatCategories = {
     goalie: ['Saves', 'Goals'],
     goalieCalcs: ['SOG', 'Save %'],
     skater: ['Goals', 'Assists'],
-    skaterCalcs: ['Points'],
+    skaterCalcs: ['Points', 'Rebounds'],
   },
   basketball: {
-    guard: [
-      'Points',
-      'Assists',
-      'Rebounds',
-      'Steals',
-      'Blocks',
-      'Field Goal %',
-      'Free Throw %',
-    ],
-    guardCalcs: ['PTS'],
+    guard: ['FG', '3PT', 'FT', 'Assists', 'Rebounds', 'Steals', 'Blocks'],
+    guardCalcs: ['PTS', 'AST', 'REB', 'STL', 'BLK'],
+    forward: ['FG', '3PT', 'FT', 'Assists', 'Rebounds', 'Steals', 'Blocks'],
+    forwardCalcs: ['PTS', 'AST', 'REB', 'STL', 'BLK'],
+    center: ['FG', '3PT', 'FT', 'Assists', 'Rebounds', 'Steals', 'Blocks'],
+    centerCalcs: ['PTS', 'AST', 'REB', 'STL', 'BLK'],
   },
 };
 export default statCategories;

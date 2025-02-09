@@ -5,21 +5,32 @@ class StatCalcs {
       savePercentage: (saves: number, totalShots: number) => string;
     };
     skater: {
-      points: (goals: number, assists: number) => number;
+      hockeyPoints: (goals: number, assists: number) => number;
     };
+  };
+  basketball: {
+    basketballPoints: (
+      twoPointFG: number,
+      threePointFG: number,
+      freeThrow: number
+    ) => number;
   };
 
   constructor() {
-    this.hockey = {
+    (this.hockey = {
       goalie: {
         shotsOnGoal: (goal, shots) => this.shotsOnGoal(goal, shots),
         savePercentage: (saves, totalShots) =>
           this.savePercentage(saves, totalShots),
       },
       skater: {
-        points: (goals, assists) => this.points(goals, assists),
+        hockeyPoints: (goals, assists) => this.hockeyPoints(goals, assists),
       },
-    };
+    }),
+      (this.basketball = {
+        basketballPoints: (twoPointFG, threePointFG, freeThrow) =>
+          this.basketball.basketballPoints(twoPointFG, threePointFG, freeThrow),
+      });
   }
   shotsOnGoal(goals: number, saves: number) {
     return goals + saves;
@@ -30,8 +41,16 @@ class StatCalcs {
     return isNaN(result) ? '0.0' : result.toFixed(1);
   }
 
-  points(goals: number, assists: number) {
+  hockeyPoints(goals: number, assists: number) {
     return goals + assists;
+  }
+
+  basketballPoints(
+    twoPointFG: number,
+    threePointFG: number,
+    freeThrow: number
+  ) {
+    return twoPointFG * 2 + threePointFG * 3 + freeThrow * 1;
   }
 }
 export default StatCalcs;

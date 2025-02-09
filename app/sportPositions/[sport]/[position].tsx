@@ -1,11 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  Modal,
+} from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useNavigation } from 'expo-router';
 import statCategories from '../../../Database/statCategories';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import StatCalcs from '../../../Database/statCalcs';
 import HelperFunctions from '../../../Utils/HelperFunctions';
+import ConfirmModal from '../../../components/ConfirmModal';
 
 //! Stat Counter Page
 const StatsPage: React.FC = () => {
@@ -17,6 +25,9 @@ const StatsPage: React.FC = () => {
   }>();
   sport = sport.toLowerCase();
   position = position.toLowerCase();
+  console.log(
+    `This is the sport -> ${sport} and this is the position ${position}`
+  );
   const navigation = useNavigation();
 
   //? UseRef
@@ -27,6 +38,7 @@ const StatsPage: React.FC = () => {
   const [calculatedStats, setCalculatedStats] = useState<{
     [key: string]: number | string;
   }>({});
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   //? UseEffect
   // Initial Loading of Stat Counter page code
@@ -74,7 +86,7 @@ const StatsPage: React.FC = () => {
             ['save %']: savePercentage,
           });
         } else if (position === 'skater') {
-          const points = statCalcs.hockey.skater.points(
+          const points = statCalcs.hockey.skater.hockeyPoints(
             stats.goals,
             stats.assists
           );
@@ -82,7 +94,21 @@ const StatsPage: React.FC = () => {
         } else {
           console.log(`NO POSITION WITH CALCULATED STATS FOUND!!!`);
         }
+        break;
       }
+      case 'basketball': {
+        setCalculatedStats({
+          ...calculatedStats,
+          PTS: statCalcs.basketballPoints(stats.fg, stats['3pt'], stats.ft),
+          AST: stats.assists,
+          REB: stats.rebounds,
+          STL: stats.steals,
+          BLK: stats.blocks,
+        });
+        break;
+      }
+      default:
+        console.log(`No sport of ${sport} found!!!`);
     }
   }, [stats]);
 
@@ -112,6 +138,16 @@ const StatsPage: React.FC = () => {
     setStats(resetAllStats.current);
   };
 
+  const gameOver = (): void => {
+    console.log('Game over tapped');
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const closeModal = (): void => {
+    console.log('Close modal was tapped');
+    setIsModalVisible(!isModalVisible);
+  };
+
   //? JSX
   return (
     <View style={styles.overallContainer}>
@@ -136,9 +172,7 @@ const StatsPage: React.FC = () => {
             CLEAR ALL
           </Text>
         </Pressable>
-        <Pressable>
-          <Text style={styles.gameControlButton}>GAME OVER</Text>
-        </Pressable>
+        <ConfirmModal buttonText="Game Over" />
       </View>
       <ScrollView style={styles.statsContainerScrollContainer}>
         {/* STATS SECTION */}
@@ -146,8 +180,8 @@ const StatsPage: React.FC = () => {
           return (
             <View style={styles.statCountersContainer} key={stat}>
               <View style={styles.singleStatContainer}>
-                <Text style={styles.categoryText}>
-                  {HelperFunctions.capitalizeFirstLetter(stat)}
+                <Text style={styles.statCategoryText}>
+                  {stat.toUpperCase()}
                 </Text>
                 <Text style={styles.statText}>{stats[stat]}</Text>
               </View>
@@ -155,7 +189,7 @@ const StatsPage: React.FC = () => {
                 <Pressable>
                   <AntDesign
                     name="minussquare"
-                    size={40}
+                    size={35}
                     color="#0080C6"
                     onPress={() => statHandler(stat, 'minus')}
                   />
@@ -163,7 +197,7 @@ const StatsPage: React.FC = () => {
                 <Pressable>
                   <AntDesign
                     name="plussquare"
-                    size={40}
+                    size={35}
                     color="#0080C6"
                     onPress={() => statHandler(stat, 'plus')}
                   />
@@ -234,7 +268,7 @@ const styles = StyleSheet.create({
   incrementIconContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '60%',
+    width: '50%',
   },
   clearButton: {
     backgroundColor: 'yellow',
@@ -248,9 +282,10 @@ const styles = StyleSheet.create({
   },
   clearButtonText: {
     fontWeight: '700',
+    fontSize: 12,
   },
-  categoryText: {
-    fontSize: 20,
+  statCategoryText: {
+    fontSize: 15,
     fontWeight: '600',
   },
   statText: {
