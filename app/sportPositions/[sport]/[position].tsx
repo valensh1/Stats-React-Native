@@ -1,19 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-  Modal,
-} from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useNavigation } from 'expo-router';
 import statCategories from '../../../Database/statCategories';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import StatCalcs from '../../../Database/statCalcs';
 import HelperFunctions from '../../../Utils/HelperFunctions';
 import ConfirmModal from '../../../components/ConfirmModal';
+import ModalMessages from '../../../Database/modalMessages';
 
 //! Stat Counter Page
 const StatsPage: React.FC = () => {
@@ -138,14 +132,13 @@ const StatsPage: React.FC = () => {
     setStats(resetAllStats.current);
   };
 
-  const gameOver = (): void => {
-    console.log('Game over tapped');
-    setIsModalVisible(!isModalVisible);
-  };
-
-  const closeModal = (): void => {
-    console.log('Close modal was tapped');
-    setIsModalVisible(!isModalVisible);
+  // When OK button is tapped on to end game
+  const gameOverConfirm = (): void => {
+    console.log(
+      `This is the route sportPositions/${sport}/${position}/historical_stats`
+    );
+    // router.push(`sportPositions/${sport}/${position}/historical_stats`);
+    router.push(`sportPositions/basketball/guard/historical_stats`);
   };
 
   //? JSX
@@ -172,7 +165,12 @@ const StatsPage: React.FC = () => {
             CLEAR ALL
           </Text>
         </Pressable>
-        <ConfirmModal buttonText="Game Over" />
+        <ConfirmModal
+          buttonText="Game Over"
+          modalMessage={ModalMessages.endGame}
+          onConfirm={gameOverConfirm}
+          sport={sport}
+        />
       </View>
       <ScrollView style={styles.statsContainerScrollContainer}>
         {/* STATS SECTION */}

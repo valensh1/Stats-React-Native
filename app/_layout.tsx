@@ -27,6 +27,14 @@ const RootLayout = () => {
           headerBackTitle: 'Back',
         }}
       />
+      <Stack.Screen
+        name="sportPositions/[sport]/[position]/historical_stats"
+        options={{
+          headerTitle: 'Career Stats',
+          headerTitleAlign: 'center',
+          headerBackTitle: 'Back',
+        }}
+      />
     </Stack>
   );
 };
