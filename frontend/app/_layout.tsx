@@ -2,7 +2,10 @@ import { Stack } from 'expo-router';
 
 const RootLayout = () => {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        contentStyle: { backgroundColor: '#0080C6' },
+      }}>
       <Stack.Screen
         name="index"
         options={{
