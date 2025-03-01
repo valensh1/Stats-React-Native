@@ -134,11 +134,7 @@ const StatsPage: React.FC = () => {
 
   // When OK button is tapped on to end game
   const gameOverConfirm = (): void => {
-    console.log(
-      `This is the route sportPositions/${sport}/${position}/historical_stats`
-    );
-    // router.push(`sportPositions/${sport}/${position}/historical_stats`);
-    router.push(`sportPositions/basketball/guard/historical_stats`);
+    router.push(`sportPositions/basketball/historical_stats`);
   };
 
   //? JSX
