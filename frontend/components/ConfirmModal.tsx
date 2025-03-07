@@ -56,12 +56,10 @@ const ConfirmModal: React.FC<ButtonText> = ({
             />
             <Text style={styles.modalText}>{modalMessage}</Text>
             <View style={styles.buttonContainer}>
-              <Pressable style={styles.yesButton}>
-                <Text
-                  style={styles.yesButtonText}
-                  onPress={() => modalHandler('yes')}>
-                  Yes
-                </Text>
+              <Pressable
+                style={styles.yesButton}
+                onPress={() => modalHandler('yes')}>
+                <Text style={styles.yesButtonText}>Yes</Text>
               </Pressable>
               <Pressable
                 style={styles.cancelButton}
@@ -144,6 +142,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#0080C6',
     fontSize: 16,
-    textDecorationLine: 'underline',
   },
 });

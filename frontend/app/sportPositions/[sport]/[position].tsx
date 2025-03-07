@@ -134,7 +134,11 @@ const StatsPage: React.FC = () => {
 
   // When OK button is tapped on to end game
   const gameOverConfirm = (): void => {
-    router.push(`sportPositions/basketball/historical_stats`);
+    // router.push(`sportPositions/basketball/historical_stats`);
+    router.push({
+      pathname: 'sportPositions/basketball/historical_stats',
+      params: { fg: 'basketball' },
+    });
   };
 
   //? JSX
@@ -244,7 +248,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   gameControlButton: {
-    color: 'red',
+    color: '#0080C6',
     fontWeight: 800,
   },
   statsContainerScrollContainer: {
