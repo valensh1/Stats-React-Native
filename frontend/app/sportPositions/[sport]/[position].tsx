@@ -8,6 +8,7 @@ import StatCalcs from '../../../Database/statCalcs';
 import HelperFunctions from '../../../Utils/HelperFunctions';
 import ConfirmModal from '../../../components/ConfirmModal';
 import ModalMessages from '../../../Database/modalMessages';
+import colors from '../../../Styles/Colors';
 
 //! Stat Counter Page
 const StatsPage: React.FC = () => {
@@ -166,7 +167,7 @@ const StatsPage: React.FC = () => {
           </Text>
         </Pressable>
         <ConfirmModal
-          buttonText="Game Over"
+          buttonText="GAME OVER"
           modalMessage={ModalMessages.endGame}
           onConfirm={gameOverConfirm}
           sport={sport}
@@ -188,7 +189,7 @@ const StatsPage: React.FC = () => {
                   <AntDesign
                     name="minussquare"
                     size={35}
-                    color="#0080C6"
+                    style={[styles.minusPlusButtons]}
                     onPress={() => statHandler(stat, 'minus')}
                   />
                 </Pressable>
@@ -196,7 +197,7 @@ const StatsPage: React.FC = () => {
                   <AntDesign
                     name="plussquare"
                     size={35}
-                    color="#0080C6"
+                    style={[styles.minusPlusButtons]}
                     onPress={() => statHandler(stat, 'plus')}
                   />
                 </Pressable>
@@ -218,7 +219,6 @@ const StatsPage: React.FC = () => {
 const styles = StyleSheet.create({
   overallContainer: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
   },
   statsCalcs: {
     flex: 0,
@@ -228,18 +228,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#ccc',
     marginBottom: '3%',
-    backgroundColor: '#0080C6',
+    backgroundColor: colors.globalAlternateColor,
     padding: 7,
   },
   calculatedStatCategoryText: {
     fontSize: 20,
     fontWeight: 600,
-    color: 'white',
+    color: colors.globalSecondaryColor,
   },
   calculatedStatText: {
     fontSize: 20,
     fontWeight: 600,
-    color: 'white',
+    color: colors.globalSecondaryColor,
     textAlign: 'center',
   },
   gameControls: {
@@ -248,8 +248,21 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   gameControlButton: {
-    color: '#0080C6',
-    fontWeight: 800,
+    backgroundColor: colors.globalAlternateColor,
+    borderColor: colors.globalSecondaryColor,
+    color: 'red',
+    fontWeight: 600,
+    borderWidth: 2,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 15,
   },
   statsContainerScrollContainer: {
     flexGrow: 1,
@@ -268,26 +281,42 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '50%',
   },
+  minusPlusButtons: {
+    backgroundColor: colors.globalAlternateColor,
+    color: colors.globalSecondaryColor,
+    shadowColor: 'black',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 15,
+  },
   clearButton: {
-    backgroundColor: 'yellow',
-    borderColor: 'black',
+    backgroundColor: colors.globalAlternateColor,
+    borderColor: colors.globalAlternateColor,
     borderWidth: 2,
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingVertical: 5,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 15,
   },
   clearButtonText: {
     fontWeight: '700',
     fontSize: 12,
+    color: colors.globalSecondaryColor,
   },
   statCategoryText: {
-    fontSize: 15,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: '700',
   },
   statText: {
     fontSize: 18,
+    fontWeight: '500',
   },
 });
 export default StatsPage;

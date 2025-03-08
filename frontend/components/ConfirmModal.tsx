@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, Modal, Pressable, Image } from 'react-native';
 import Images from '../Database/Images';
+import colors from '../Styles/Colors';
 
 interface ButtonText {
   buttonText: string;
@@ -76,6 +77,23 @@ const ConfirmModal: React.FC<ButtonText> = ({
 export default ConfirmModal;
 
 const styles = StyleSheet.create({
+  linkStyling: {
+    backgroundColor: colors.globalAlternateColor,
+    borderColor: colors.globalSecondaryColor,
+    color: 'red',
+    fontWeight: 600,
+    borderWidth: 2,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: 'black',
+    shadowOffset: { width: 5, height: 5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 15,
+  },
   container: {
     alignItems: 'center',
   },
@@ -104,7 +122,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-    color: '#FFF', // White text for contrast
+    color: colors.globalWhiteText, // White text for contrast
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -114,7 +132,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   yesButton: {
-    backgroundColor: '#FFD700', // Yellow button
+    backgroundColor: colors.globalSecondaryColor,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -123,11 +141,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   yesButtonText: {
-    color: '#0080C6',
+    color: colors.globalBackgroundColor,
     fontWeight: 'bold',
   },
   cancelButton: {
-    backgroundColor: '#005A99', // Darker blue for cancel button
+    backgroundColor: colors.globalAlternateColor,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -135,12 +153,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   cancelButtonText: {
-    color: '#FFD700',
+    color: colors.globalSecondaryColor,
     fontWeight: 'bold',
-  },
-  linkStyling: {
-    fontWeight: 'bold',
-    color: '#0080C6',
-    fontSize: 16,
   },
 });

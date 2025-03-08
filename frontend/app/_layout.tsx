@@ -1,40 +1,43 @@
 import { Stack } from 'expo-router';
+import Layout from '../components/Layout';
+import colors from '../Styles/Colors';
 
 const RootLayout = () => {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        contentStyle: { backgroundColor: colors.globalBackgroundColor },
+        headerStyle: { backgroundColor: colors.globalSecondaryColor },
+        headerTitleAlign: 'center',
+        headerBackTitle: 'Back',
+        headerTitleStyle: {
+          color: colors.globalAlternateColor,
+          fontWeight: 700,
+          fontSize: 20,
+        },
+      }}>
       <Stack.Screen
         name="index"
         options={{
           headerTitle: 'Choose Sport',
-          headerTitleAlign: 'center',
-          headerBackTitle: 'Back',
         }}
       />
       <Stack.Screen
         name="sportPositions/[sport]/index"
         options={{
           headerTitle: 'Choose Position',
-          headerTitleAlign: 'center',
-          headerBackTitle: 'Back',
         }}
       />
       <Stack.Screen
         name="sportPositions/[sport]/[position]"
         options={{
           headerTitle: 'Stats',
-          headerTitleAlign: 'center',
-          headerBackTitle: 'Back',
         }}
       />
       <Stack.Screen
         name="sportPositions/[sport]/historical_stats"
         options={{
           headerTitle: 'Career Stats',
-          headerTitleAlign: 'center',
-          headerBackTitle: 'Back',
-          headerTitleStyle: { color: '#005A99', fontWeight: 600 },
-          headerStyle: { backgroundColor: '#FFD700' },
         }}
       />
     </Stack>

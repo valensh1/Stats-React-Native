@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import colors from '../Styles/Colors';
 
 interface SportIconsProps {
   sport: string;
@@ -53,8 +54,12 @@ const SportIcons: React.FC<SportIconsProps> = ({
   return (
     <View>
       <Pressable onPress={sportSelectionHandler} style={styles.container}>
-        <Text>{sport}</Text>
-        <IconComponent name={iconName} size={100} color="black" />
+        <Text style={styles.sportLabels}>{sport}</Text>
+        <IconComponent
+          name={iconName}
+          size={100}
+          color={colors.globalSecondaryColor}
+        />
       </Pressable>
     </View>
   );
@@ -65,6 +70,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '15%',
+  },
+  sportLabels: {
+    color: colors.globalAlternateColor,
+    fontWeight: '600',
+    fontSize: 18,
   },
 });
 export default SportIcons;
