@@ -1,10 +1,13 @@
 import { View, StyleSheet } from 'react-native';
 import SportIcons from '../components/SportIcons';
 import { useRouter } from 'expo-router';
+import APIUtils from '../Utils/APIUtils';
 
 //! Choose Sport Page
 const Home = () => {
   const router = useRouter();
+
+  APIUtils();
 
   return (
     <View style={styles.container}>

@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import DropdownComponent from '../../../components/Dropdown';
 import colors from '../../../Styles/Colors';
 
-const HistoricalPlayerStats = () => {
+const HistoricalPlayerStats: React.FC = () => {
   const placeholderText = '#FFD700';
   const router = useRouter();
   // console.log('Router Params:', router.params);
