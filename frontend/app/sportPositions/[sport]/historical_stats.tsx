@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import DropdownComponent from '../../../components/Dropdown';
 import colors from '../../../Styles/Colors';
+import http from '../../../Database/http';
 
 const HistoricalPlayerStats = () => {
   const placeholderText = '#FFD700';
@@ -12,6 +13,7 @@ const HistoricalPlayerStats = () => {
 
   //? Use State
   const [isFocused, setIsFocused] = useState(false);
+  http();
 
   return (
     <View style={styles.container}>
