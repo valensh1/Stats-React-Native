@@ -28,7 +28,6 @@ const HistoricalPlayerStats: React.FC = () => {
 
       {/* Date Picker Section */}
       <View style={styles.inputContainer}>
-        <Text style={styles.inputLabels}>Game Date</Text>
         <DatePicker />
       </View>
 
