@@ -1,19 +1,19 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
-import DropdownComponent from '../../../components/Dropdown';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import colors from '../../../Styles/Colors';
-import http from '../../../Database/http';
+import DatePicker from '../../../components/DatePicker';
 
-const HistoricalPlayerStats = () => {
+const HistoricalPlayerStats: React.FC = () => {
   const placeholderText = '#FFD700';
-  const router = useRouter();
-  // console.log('Router Params:', router.params);
-  // const { fg } = router.params;
 
-  //? Use State
-  const [isFocused, setIsFocused] = useState(false);
-  http();
+  // State Types
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
   return (
     <View style={styles.container}>
@@ -22,26 +22,30 @@ const HistoricalPlayerStats = () => {
         <TextInput
           style={[styles.textInput, isFocused && styles.focusedState]}
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}></TextInput>
+          onBlur={() => setIsFocused(false)}
+        />
       </View>
-      <DropdownComponent />
+
+      {/* Date Picker Section */}
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabels}>Game Date</Text>
-        <TextInput style={styles.textInput}></TextInput>
+        <DatePicker />
       </View>
+
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabels}>Home Team Final Score</Text>
         <TextInput
           placeholderTextColor={placeholderText}
-          style={styles.numberInput}></TextInput>
+          style={styles.numberInput}
+        />
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.inputLabels}>Visiting Team Final Score</Text>
         <TextInput
           placeholderTextColor={placeholderText}
-          style={styles.numberInput}></TextInput>
+          style={styles.numberInput}
+        />
       </View>
-      {/* <Text>{fg}</Text> */}
     </View>
   );
 };
@@ -90,4 +94,5 @@ const styles = StyleSheet.create({
     width: '15%',
   },
 });
+
 export default HistoricalPlayerStats;
