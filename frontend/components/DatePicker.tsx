@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import colors from '../Styles/Colors';
 
 const DatePicker = () => {
   const [date, setDate] = useState(new Date());
@@ -13,43 +14,45 @@ const DatePicker = () => {
     } else if (event?.type === 'dismissed') {
       console.log('User dismissed the date picker.');
     }
-
-    setTimeout(() => setShowDatePicker(false), 0);
+    setShowDatePicker(false);
   };
 
   return (
-    <View>
-      {/* <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-        <Text>Pick Date</Text>
+    <View style={styles.overallContainer}>
+      <Text>Date</Text>
+      <TouchableOpacity
+        onPress={() => setShowDatePicker(true)}
+        style={styles.inputContainerStyle}>
+        <Text style={styles.textStyle}>{date.toString()}</Text>
       </TouchableOpacity>
       {showDatePicker && (
         <DateTimePicker
-          onChange={dateSelectionHandler}
-          mode="date"
+          mode={'date'}
           value={date}
+          onChange={dateSelectionHandler}
         />
-      )} */}
-      <Text>Date</Text>
-      <TouchableOpacity
-        onPress={() => console.log('I am touching this')}
-        style={styles.datePicker}>
-        <RNDateTimePicker
-          value={new Date()}
-          mode="date"
-          display="spinner"
-          style={styles.datePicker}
-        />
-      </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  datePicker: {
+  inputContainerStyle: {
     // opacity: 0, // Takes space but invisible
     // display: 'none' // DOES NOT take space and is invisible
-    borderColor: 'red',
-    borderWidth: 5,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.globalSecondaryColor,
+    borderRadius: 5,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    paddingRight: 10,
+    height: 50,
+  },
+  textStyle: {
+    fontSize: 16,
+    marginHorizontal: 10,
   },
 });
 
