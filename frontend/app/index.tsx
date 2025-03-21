@@ -1,33 +1,22 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import SportIcons from '../components/SportIcons';
 import { useRouter } from 'expo-router';
+import Authentication from '../components/Authentication';
 
 //! Choose Sport Page
 const Home = () => {
   const router = useRouter();
 
+  const navigateToHomePage = () => {
+    router.push(`/LandingPage`);
+  };
+
   return (
     <View style={styles.container}>
-      <SportIcons
-        sport="Baseball"
-        iconName="baseball-bat"
-        iconLibrary="MaterialCommunityIcons"
-      />
-      <SportIcons
-        sport="Basketball"
-        iconName="basketball-outline"
-        iconLibrary="Iconicons"
-      />
-      <SportIcons
-        sport="Football"
-        iconName="american-football-outline"
-        iconLibrary="Iconicons"
-      />
-      <SportIcons
-        sport="Hockey"
-        iconName="sports-hockey"
-        iconLibrary="MaterialIcons"
-      />
+      <Authentication />
+      <Pressable onPress={navigateToHomePage}>
+        <Text>Go to Home Page</Text>
+      </Pressable>
     </View>
   );
 };
@@ -39,6 +28,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     marginTop: '-10%',
+    borderWidth: 10,
+    borderColor: 'green',
   },
 });
 

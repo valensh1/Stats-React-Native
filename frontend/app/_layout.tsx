@@ -19,6 +19,12 @@ const RootLayout = () => {
       <Stack.Screen
         name="index"
         options={{
+          headerTitle: 'Authentication',
+        }}
+      />
+      <Stack.Screen
+        name="LandingPage"
+        options={{
           headerTitle: 'Choose Sport',
         }}
       />
