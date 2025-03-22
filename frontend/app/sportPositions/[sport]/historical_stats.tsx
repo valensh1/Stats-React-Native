@@ -8,12 +8,10 @@ import http from '../../../Database/http';
 const HistoricalPlayerStats = () => {
   const placeholderText = '#FFD700';
   const router = useRouter();
-  // console.log('Router Params:', router.params);
-  // const { fg } = router.params;
 
   //? Use State
   const [isFocused, setIsFocused] = useState(false);
-  http();
+  http(); // THIS MAKES A POST REQUEST TO THE FIREBASE DATABASE
 
   return (
     <View style={styles.container}>

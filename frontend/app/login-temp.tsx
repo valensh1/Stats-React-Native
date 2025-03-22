@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import Button from './Button';
+import Button from '../components/Button';
 import colors from '../Styles/Colors';
 
 interface Credentials {
@@ -24,7 +24,7 @@ const defaultCredentials: Credentials = {
   password: '',
 };
 
-const Authentication = () => {
+const login = () => {
   //? USE STATE
   const [credentials, setCredentials] =
     useState<Credentials>(defaultCredentials);
@@ -144,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Authentication;
+export default login;

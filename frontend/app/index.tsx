@@ -1,12 +1,11 @@
 import { View, StyleSheet, Pressable, Text } from 'react-native';
 import SportIcons from '../components/SportIcons';
-import Authentication from '../components/Authentication';
+import Login from './login-temp';
 
-//! Choose Sport Page
 const Home = () => {
   return (
     <View style={styles.container}>
-      <Authentication />
+      <Login />
     </View>
   );
 };
