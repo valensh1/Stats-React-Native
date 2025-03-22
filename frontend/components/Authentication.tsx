@@ -6,6 +6,8 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import Button from './Button';
 import colors from '../Styles/Colors';
@@ -45,59 +47,61 @@ const Authentication = () => {
   };
 
   return (
-    <View style={styles.overallContainer}>
-      <View style={styles.loginContainer}>
-        <View style={styles.singleFieldContainer}>
-          <Text style={styles.labels}>Email Address</Text>
-          <TextInput
-            onChangeText={(text) => credentialHandler(text, 'emailAddress')}
-            value={credentials.emailAddress}
-            style={[styles.textInput, isFocused.email && styles.focusedState]}
-            onFocus={() => setIsFocused({ email: true, password: false })}
-            onBlur={() => setIsFocused({ ...isFocused, email: false })}
-            autoCapitalize="none"></TextInput>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.overallContainer}>
+        <View style={styles.loginContainer}>
+          <View style={styles.singleFieldContainer}>
+            <Text style={styles.labels}>Email Address</Text>
+            <TextInput
+              onChangeText={(text) => credentialHandler(text, 'emailAddress')}
+              value={credentials.emailAddress}
+              style={[styles.textInput, isFocused.email && styles.focusedState]}
+              onFocus={() => setIsFocused({ email: true, password: false })}
+              onBlur={() => setIsFocused({ ...isFocused, email: false })}
+              autoCapitalize="none"></TextInput>
+          </View>
+          <View style={styles.singleFieldContainer}>
+            <Text style={styles.labels}>Password</Text>
+            <TextInput
+              onChangeText={(text) => credentialHandler(text, 'password')}
+              value={credentials.password}
+              style={[
+                styles.textInput,
+                isFocused.password && styles.focusedState,
+              ]}
+              onFocus={() => setIsFocused({ password: true, email: false })}
+              onBlur={() => setIsFocused({ ...isFocused, password: false })}
+              autoCapitalize="none"></TextInput>
+          </View>
         </View>
-        <View style={styles.singleFieldContainer}>
-          <Text style={styles.labels}>Password</Text>
-          <TextInput
-            onChangeText={(text) => credentialHandler(text, 'password')}
-            value={credentials.password}
-            style={[
-              styles.textInput,
-              isFocused.password && styles.focusedState,
-            ]}
-            onFocus={() => setIsFocused({ password: true, email: false })}
-            onBlur={() => setIsFocused({ ...isFocused, password: false })}
-            autoCapitalize="none"></TextInput>
+        <View style={styles.loginButton}>
+          <Button
+            text={'Log In'}
+            navigationPath={'/LandingPage'}
+            buttonBackgroundColor={
+              isInputFieldsEmpty
+                ? colors.globalBackgroundColor
+                : colors.globalSecondaryColor
+            }
+            buttonTextColor={colors.globalAlternateColor}
+          />
         </View>
+        <TouchableOpacity style={styles.newUserButtonContainer}>
+          <Text style={styles.newUserButtonText}>Create a new user</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.loginButton}>
-        <Button
-          text={'Log In'}
-          navigationPath={'/LandingPage'}
-          buttonBackgroundColor={
-            isInputFieldsEmpty
-              ? colors.globalBackgroundColor
-              : colors.globalSecondaryColor
-          }
-          buttonTextColor={colors.globalAlternateColor}
-        />
-      </View>
-      <TouchableOpacity style={styles.newUserButtonContainer}>
-        <Text style={styles.newUserButtonText}>Create a new user</Text>
-      </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 const styles = StyleSheet.create({
   overallContainer: {
-    width: '85%',
-    height: height * 0.3,
+    width: '100%',
+    height: height * 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   loginContainer: {
-    width: '100%',
+    width: '85%',
     height: height * 0.3,
     backgroundColor: colors.globalAlternateColor,
     borderColor: colors.globalAlternateColor,
