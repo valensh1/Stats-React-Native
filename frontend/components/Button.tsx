@@ -4,9 +4,10 @@ import colors from '../Styles/Colors';
 
 interface ButtonComponent {
   text: string;
-  navigationPath: string;
-  buttonBackgroundColor: string;
-  buttonTextColor: string;
+  navigationPath?: string;
+  buttonBackgroundColor?: string;
+  buttonTextColor?: string;
+  buttonFunctionOnPress?: () => void; // Pass in a function to be executed upon button press
 }
 
 const { height } = Dimensions.get('window');
@@ -16,23 +17,30 @@ const Button = ({
   navigationPath,
   buttonBackgroundColor,
   buttonTextColor,
+  buttonFunctionOnPress,
 }: ButtonComponent) => {
   const router = useRouter();
 
   //? USE STATE
 
   //? FUNCTIONS
-  const navigationOnButtonPress = (path: string) => {
-    router.push(`${path}`);
+  const buttonPressHandler = (path: string | undefined) => {
+    path ? router.push(`${path}`) : console.log('No navigation path provided');
+    if (buttonFunctionOnPress) {
+      buttonFunctionOnPress();
+    }
   };
 
   return (
     <TouchableOpacity
       style={[
         styles.buttonContainer,
-        { backgroundColor: buttonBackgroundColor },
+        {
+          backgroundColor:
+            buttonBackgroundColor || styles.buttonContainer.backgroundColor,
+        },
       ]}
-      onPress={() => navigationOnButtonPress(navigationPath)}>
+      onPress={() => buttonPressHandler(navigationPath)}>
       <Text style={[styles.buttonText, { color: buttonTextColor }]}>
         {text}
       </Text>
@@ -47,6 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     borderColor: colors.globalSecondaryColor,
     borderWidth: 2,
+    backgroundColor: colors.globalSecondaryColor,
   },
   buttonText: {
     textAlign: 'center',

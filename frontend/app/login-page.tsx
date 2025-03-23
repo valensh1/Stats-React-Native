@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'expo-router';
 import {
   View,
   Text,
@@ -25,6 +26,8 @@ const defaultCredentials: Credentials = {
 };
 
 const login = () => {
+  const router = useRouter();
+
   //? USE STATE
   const [credentials, setCredentials] =
     useState<Credentials>(defaultCredentials);
@@ -44,6 +47,10 @@ const login = () => {
     updatedCredentials.emailAddress && updatedCredentials.password
       ? setIsInputFieldsEmpty(false)
       : setIsInputFieldsEmpty(true);
+  };
+
+  const navigateToSignPage = () => {
+    router.push('signup');
   };
 
   return (
@@ -77,7 +84,7 @@ const login = () => {
         <View style={styles.loginButton}>
           <Button
             text={'Log In'}
-            navigationPath={'/LandingPage'}
+            navigationPath={'/landing-page'}
             buttonBackgroundColor={
               isInputFieldsEmpty
                 ? colors.globalBackgroundColor
@@ -86,7 +93,9 @@ const login = () => {
             buttonTextColor={colors.globalAlternateColor}
           />
         </View>
-        <TouchableOpacity style={styles.newUserButtonContainer}>
+        <TouchableOpacity
+          style={styles.newUserButtonContainer}
+          onPress={navigateToSignPage}>
           <Text style={styles.newUserButtonText}>Create a new user</Text>
         </TouchableOpacity>
       </View>

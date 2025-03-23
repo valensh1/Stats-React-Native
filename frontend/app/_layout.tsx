@@ -17,13 +17,13 @@ const RootLayout = () => {
         },
       }}>
       <Stack.Screen
-        name="login"
+        name="index"
         options={{
           headerTitle: 'Log In',
         }}
       />
       <Stack.Screen
-        name="LandingPage"
+        name="landing-page"
         options={{
           headerTitle: 'Choose Sport',
         }}
