@@ -15,6 +15,7 @@ interface InputField {
   labelColor?: string;
   focusedBackgroundColor?: string;
   onChangeText?: (text: string) => void;
+  value: string;
   secureTextEntry?: boolean;
 }
 
@@ -25,6 +26,7 @@ const InputField = ({
   labelColor,
   focusedBackgroundColor,
   onChangeText,
+  value,
   secureTextEntry,
 }: InputField) => {
   //? USE STATE
@@ -60,7 +62,7 @@ const InputField = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           secureTextEntry={secureTextEntry}
-          value={input}></TextInput>
+          value={value}></TextInput>
       </View>
     </TouchableWithoutFeedback>
   );

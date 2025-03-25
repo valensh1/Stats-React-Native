@@ -26,15 +26,15 @@ const defaultSignupCredentials = {
   confirmPassword: '',
 };
 
-const errorMessage: string = 'Passwords did NOT match...please try again!';
-
 const signup = () => {
+  //? USE STATE
   const [credentials, setCredentials] = useState<SignupCredentials>(
     defaultSignupCredentials
   );
   const [isInputFieldsEmpty, setIsInputFieldsEmpty] = useState<boolean>(true);
   const [isPasswordCriteriaMet, setIsPasswordCriteriaMet] =
     useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
   const signUpCredentialHandler = useCallback(
     (field: keyof SignupCredentials, text: string): void => {
@@ -46,6 +46,7 @@ const signup = () => {
     [credentials] // Empty array will not re-create function on every render
   );
 
+  //? USE EFFECT
   useEffect(() => {
     setIsInputFieldsEmpty(
       credentials.emailAddress &&
@@ -56,17 +57,20 @@ const signup = () => {
     );
   }, [credentials]);
 
-  useEffect(() => {
-    console.log(
-      'This is the updated state of whether the fields are all empty ' +
-        isInputFieldsEmpty
-    );
-  }, [isInputFieldsEmpty]);
-
+  //? FUNCTIONS
   const buttonFunctionOnPress = () => {
-    setIsPasswordCriteriaMet(
-      credentials.password !== credentials.confirmPassword ? false : true
-    );
+    const minimumPasswordLength = 7;
+    if (credentials.password !== credentials.confirmPassword) {
+      setIsPasswordCriteriaMet(false);
+      setErrorMessage('Passwords do NOT match...please try again!');
+    } else if (credentials.password.length < minimumPasswordLength) {
+      setIsPasswordCriteriaMet(false);
+      setErrorMessage(
+        'Passwords need to have at least 7 characters...please try again!'
+      );
+    } else {
+      setIsPasswordCriteriaMet(true);
+    }
   };
 
   return (
@@ -137,7 +141,8 @@ const styles = StyleSheet.create({
   },
   errorMessageContainer: {
     color: 'red',
-    width: '85%',
+    fontWeight: 600,
+    width: '100%',
     textAlign: 'center',
   },
 });
