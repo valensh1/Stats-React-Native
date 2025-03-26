@@ -24,8 +24,10 @@ const Button = ({
   //? USE STATE
 
   //? FUNCTIONS
-  const buttonPressHandler = (path: string | undefined) => {
-    path ? router.push(`${path}`) : console.log('No navigation path provided');
+  const buttonPressHandler = () => {
+    navigationPath
+      ? router.push(`${navigationPath}`)
+      : console.log('No navigation path provided');
     if (buttonFunctionOnPress) {
       buttonFunctionOnPress();
     }
@@ -40,7 +42,7 @@ const Button = ({
             buttonBackgroundColor || styles.buttonContainer.backgroundColor,
         },
       ]}
-      onPress={() => buttonPressHandler(navigationPath)}>
+      onPress={() => buttonPressHandler()}>
       <Text style={[styles.buttonText, { color: buttonTextColor }]}>
         {text}
       </Text>

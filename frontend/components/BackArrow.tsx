@@ -3,7 +3,7 @@ import { StyleSheet, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 
-const BackArrow: React.FC = () => {
+const BackArrow = () => {
   const router = useRouter();
 
   return (

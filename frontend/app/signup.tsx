@@ -11,6 +11,8 @@ import { useState, useCallback, useEffect } from 'react';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
 import colors from '../Styles/Colors';
+import APIUtils from '../Utils/APIUtilis';
+import { useRouter } from 'expo-router';
 
 const { height } = Dimensions.get('window');
 
@@ -27,6 +29,8 @@ const defaultSignupCredentials = {
 };
 
 const signup = () => {
+  const router = useRouter();
+
   //? USE STATE
   const [credentials, setCredentials] = useState<SignupCredentials>(
     defaultSignupCredentials
@@ -58,7 +62,7 @@ const signup = () => {
   }, [credentials]);
 
   //? FUNCTIONS
-  const buttonFunctionOnPress = () => {
+  const buttonFunctionOnPress = async () => {
     const minimumPasswordLength = 7;
     if (credentials.password !== credentials.confirmPassword) {
       setIsPasswordCriteriaMet(false);
@@ -70,6 +74,12 @@ const signup = () => {
       );
     } else {
       setIsPasswordCriteriaMet(true);
+      const user = await APIUtils.createUser(
+        credentials.emailAddress,
+        credentials.password
+      );
+      console.log(user);
+      router.push('landing-page');
     }
   };
 
