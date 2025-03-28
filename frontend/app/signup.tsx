@@ -13,6 +13,7 @@ import Button from '../components/Button';
 import colors from '../Styles/Colors';
 import APIUtils from '../Utils/APIUtilis';
 import { useRouter } from 'expo-router';
+import Modal from '../components/Modal';
 
 const { height } = Dimensions.get('window');
 
@@ -39,16 +40,7 @@ const signup = () => {
   const [isPasswordCriteriaMet, setIsPasswordCriteriaMet] =
     useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>();
-
-  const signUpCredentialHandler = useCallback(
-    (field: keyof SignupCredentials, text: string): void => {
-      setCredentials((prev) => ({
-        ...prev,
-        [field]: text,
-      }));
-    },
-    [credentials] // Empty array will not re-create function on every render
-  );
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   //? USE EFFECT
   useEffect(() => {
@@ -62,6 +54,17 @@ const signup = () => {
   }, [credentials]);
 
   //? FUNCTIONS
+
+  const signUpCredentialHandler = useCallback(
+    (field: keyof SignupCredentials, text: string): void => {
+      setCredentials((prev) => ({
+        ...prev,
+        [field]: text,
+      }));
+    },
+    [credentials] // Empty array will not re-create function on every render
+  );
+
   const buttonFunctionOnPress = async () => {
     const minimumPasswordLength = 7;
     if (credentials.password !== credentials.confirmPassword) {
@@ -79,55 +82,71 @@ const signup = () => {
         credentials.password
       );
       console.log(user);
-      router.push('landing-page');
+      setShowModal(true);
+      setTimeout(() => {
+        console.log('Timer started');
+        setShowModal(false);
+        router.push('/');
+      }, 3000);
     }
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.overallContainer}>
-        <View style={styles.signInTextInputContainer}>
-          <View>
-            <InputField
-              label={'Email Address'}
-              onChangeText={(text) =>
-                signUpCredentialHandler('emailAddress', text)
+      <View>
+        <View
+          style={[
+            styles.overallContainer,
+            showModal && styles.modalMessageStyling,
+          ]}>
+          <View style={styles.signInTextInputContainer}>
+            <View>
+              <InputField
+                label={'Email Address'}
+                onChangeText={(text) =>
+                  signUpCredentialHandler('emailAddress', text)
+                }
+              />
+            </View>
+            <View>
+              <InputField
+                label={'Password'}
+                onChangeText={(text) =>
+                  signUpCredentialHandler('password', text)
+                }
+                secureTextEntry={true}
+              />
+            </View>
+            <View>
+              <InputField
+                label={'Confirm Password'}
+                onChangeText={(text) =>
+                  signUpCredentialHandler('confirmPassword', text)
+                }
+                secureTextEntry={true}
+              />
+            </View>
+            <View>
+              <Text style={styles.errorMessageContainer}>
+                {!isPasswordCriteriaMet && errorMessage}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.button}>
+            <Button
+              text={'Sign Up'}
+              buttonBackgroundColor={
+                isInputFieldsEmpty
+                  ? colors.globalBackgroundColor
+                  : colors.globalSecondaryColor
               }
+              buttonFunctionOnPress={buttonFunctionOnPress}
             />
-          </View>
-          <View>
-            <InputField
-              label={'Password'}
-              onChangeText={(text) => signUpCredentialHandler('password', text)}
-              secureTextEntry={true}
-            />
-          </View>
-          <View>
-            <InputField
-              label={'Confirm Password'}
-              onChangeText={(text) =>
-                signUpCredentialHandler('confirmPassword', text)
-              }
-              secureTextEntry={true}
-            />
-          </View>
-          <View>
-            <Text style={styles.errorMessageContainer}>
-              {!isPasswordCriteriaMet && errorMessage}
-            </Text>
           </View>
         </View>
-        <View style={styles.button}>
-          <Button
-            text={'Sign Up'}
-            buttonBackgroundColor={
-              isInputFieldsEmpty
-                ? colors.globalBackgroundColor
-                : colors.globalSecondaryColor
-            }
-            buttonFunctionOnPress={buttonFunctionOnPress}
-          />
-        </View>
+        {showModal && (
+          <Modal message="Account successfully created. Please log into account." />
+        )}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -154,6 +173,9 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     width: '100%',
     textAlign: 'center',
+  },
+  modalMessageStyling: {
+    opacity: 0.1,
   },
 });
 export default signup;
