@@ -1,6 +1,6 @@
 import { View, StyleSheet, Pressable, Text } from 'react-native';
 import SportIcons from '../components/SportIcons';
-import Login from './login-page';
+import Login from './login';
 
 const Home = () => {
   return (

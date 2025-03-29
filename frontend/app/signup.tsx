@@ -14,6 +14,7 @@ import colors from '../Styles/Colors';
 import APIUtils from '../Utils/APIUtilis';
 import { useRouter } from 'expo-router';
 import Modal from '../components/Modal';
+import AppConstants from './constants/constants';
 
 const { height } = Dimensions.get('window');
 
@@ -42,19 +43,19 @@ const signup = () => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  //? USE EFFECT
+  //? HOOKS
   useEffect(() => {
     setIsInputFieldsEmpty(
       credentials.emailAddress &&
-        credentials.password &&
-        credentials.confirmPassword
+        credentials.password.length >= AppConstants.minimumPasswordCharacters &&
+        credentials.confirmPassword.length >=
+          AppConstants.minimumPasswordCharacters
         ? false
         : true
     );
   }, [credentials]);
 
   //? FUNCTIONS
-
   const signUpCredentialHandler = useCallback(
     (field: keyof SignupCredentials, text: string): void => {
       setCredentials((prev) => ({
@@ -66,11 +67,12 @@ const signup = () => {
   );
 
   const buttonFunctionOnPress = async () => {
-    const minimumPasswordLength = 7;
     if (credentials.password !== credentials.confirmPassword) {
       setIsPasswordCriteriaMet(false);
       setErrorMessage('Passwords do NOT match...please try again!');
-    } else if (credentials.password.length < minimumPasswordLength) {
+    } else if (
+      credentials.password.length < AppConstants.minimumPasswordCharacters
+    ) {
       setIsPasswordCriteriaMet(false);
       setErrorMessage(
         'Passwords need to have at least 7 characters...please try again!'
@@ -78,6 +80,7 @@ const signup = () => {
     } else {
       setIsPasswordCriteriaMet(true);
       const user = await APIUtils.createUser(
+        'signUp',
         credentials.emailAddress,
         credentials.password
       );

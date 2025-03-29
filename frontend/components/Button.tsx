@@ -25,11 +25,11 @@ const Button = ({
 
   //? FUNCTIONS
   const buttonPressHandler = () => {
-    navigationPath
-      ? router.push(`${navigationPath}`)
-      : console.log('No navigation path provided');
     if (buttonFunctionOnPress) {
       buttonFunctionOnPress();
+      navigationPath
+        ? router.push(`${navigationPath}`)
+        : console.log('No navigation path provided');
     }
   };
 

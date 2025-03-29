@@ -1,5 +1,4 @@
 import { Stack } from 'expo-router';
-import Layout from '../components/Layout';
 import colors from '../Styles/Colors';
 
 const RootLayout = () => {

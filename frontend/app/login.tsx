@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
+import { useState, useCallback } from 'react';
+import { useRouter, useFocusEffect } from 'expo-router';
 import {
   View,
   Text,
@@ -9,9 +9,11 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import Button from '../components/Button';
 import colors from '../Styles/Colors';
+import APIUtils from '../Utils/APIUtilis';
 
 interface Credentials {
   emailAddress: string;
@@ -28,7 +30,7 @@ const defaultCredentials: Credentials = {
 const login = () => {
   const router = useRouter();
 
-  //? USE STATE
+  //? HOOKS
   const [credentials, setCredentials] =
     useState<Credentials>(defaultCredentials);
   const [isFocused, setIsFocused] = useState<{
@@ -40,17 +42,42 @@ const login = () => {
   });
   const [isInputFieldsEmpty, setIsInputFieldsEmpty] = useState<boolean>(true);
 
+  useFocusEffect(
+    useCallback(() => {
+      setCredentials(defaultCredentials); // Reset input fields when navigating back
+    }, [])
+  );
+
   //? FUNCTIONS
   const credentialHandler = (text: string, fieldName: keyof Credentials) => {
     const updatedCredentials = { ...credentials, [fieldName]: text };
     setCredentials(updatedCredentials);
-    updatedCredentials.emailAddress && updatedCredentials.password
+    updatedCredentials.emailAddress && updatedCredentials.password.length >= 7
       ? setIsInputFieldsEmpty(false)
       : setIsInputFieldsEmpty(true);
   };
 
-  const navigateToSignPage = () => {
+  const navigateToSignInPage = () => {
     router.push('signup');
+  };
+
+  const loginButtonHandler = async () => {
+    if (credentials.password.length >= 7) {
+      try {
+        const loggedInUser = await APIUtils.loginUser(
+          'signInWithPassword',
+          credentials.emailAddress,
+          credentials.password
+        );
+        console.log(loggedInUser);
+        router.push('/landing-page');
+      } catch (error) {
+        Alert.alert(
+          'Authentication Failed',
+          'Could not log you in. Please check your credentials and try again!'
+        );
+      }
+    }
   };
 
   return (
@@ -78,24 +105,25 @@ const login = () => {
               ]}
               onFocus={() => setIsFocused({ password: true, email: false })}
               onBlur={() => setIsFocused({ ...isFocused, password: false })}
-              autoCapitalize="none"></TextInput>
+              autoCapitalize="none"
+              secureTextEntry={true}></TextInput>
           </View>
         </View>
         <View style={styles.loginButton}>
           <Button
             text={'Log In'}
-            navigationPath={'/landing-page'}
             buttonBackgroundColor={
               isInputFieldsEmpty
                 ? colors.globalBackgroundColor
                 : colors.globalSecondaryColor
             }
             buttonTextColor={colors.globalAlternateColor}
+            buttonFunctionOnPress={loginButtonHandler}
           />
         </View>
         <TouchableOpacity
           style={styles.newUserButtonContainer}
-          onPress={navigateToSignPage}>
+          onPress={navigateToSignInPage}>
           <Text style={styles.newUserButtonText}>Create a new user</Text>
         </TouchableOpacity>
       </View>
