@@ -4,7 +4,7 @@ import { FIREBASE_URL } from '@env';
 const http = async () => {
   try {
     const response = await axios.post(`${FIREBASE_URL}/sports.json`, {
-      sports2: ['test1', 'test2', 'football', 'hockey'],
+      sports3: ['test1', 'test2', 'football', 'hockey'],
     });
     console.log('Data posted successfully:', response.data);
   } catch (error) {

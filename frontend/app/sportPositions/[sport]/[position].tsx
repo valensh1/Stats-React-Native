@@ -138,7 +138,11 @@ const StatsPage: React.FC = () => {
     // router.push(`sportPositions/basketball/historical_stats`);
     router.push({
       pathname: 'sportPositions/basketball/historical_stats',
-      params: { fg: 'basketball' },
+      // Passing of stats and calculated stats to historical_stats page; params only allows strings to be passed so need to stringify then convert to object in imported file
+      params: {
+        stats: JSON.stringify(stats),
+        calculatedStats: JSON.stringify(calculatedStats),
+      },
     });
   };
 

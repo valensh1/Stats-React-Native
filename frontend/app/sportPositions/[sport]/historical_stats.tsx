@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import DropdownComponent from '../../../components/Dropdown';
 import colors from '../../../Styles/Colors';
 import http from '../../../Database/http';
@@ -8,10 +8,22 @@ import http from '../../../Database/http';
 const HistoricalPlayerStats = () => {
   const placeholderText = '#FFD700';
   const router = useRouter();
+  const { stats, calculatedStats } = useLocalSearchParams();
 
-  //? Use State
+  //? USE STATE
+  const [gameStats, setGameStats] = useState<{
+    [key: string]: string | number;
+  }>({});
   const [isFocused, setIsFocused] = useState(false);
   http(); // THIS MAKES A POST REQUEST TO THE FIREBASE DATABASE
+
+  //? USE EFFECT
+  // Set state upon loading of page to the stats being pushed through expo router to this page from the stat counter page; Need to convert from string back to object and set state accordingly
+  useEffect(() => {
+    if (typeof stats === 'string' && typeof calculatedStats === 'string') {
+      setGameStats({ ...JSON.parse(stats), ...JSON.parse(calculatedStats) });
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -39,7 +51,7 @@ const HistoricalPlayerStats = () => {
           placeholderTextColor={placeholderText}
           style={styles.numberInput}></TextInput>
       </View>
-      {/* <Text>{fg}</Text> */}
+      <Text>{gameStats.ft}</Text>
     </View>
   );
 };
