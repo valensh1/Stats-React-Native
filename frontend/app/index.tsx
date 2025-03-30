@@ -1,33 +1,11 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import SportIcons from '../components/SportIcons';
-import { useRouter } from 'expo-router';
+import Login from './login';
 
-//! Choose Sport Page
 const Home = () => {
-  const router = useRouter();
-
   return (
     <View style={styles.container}>
-      <SportIcons
-        sport="Baseball"
-        iconName="baseball-bat"
-        iconLibrary="MaterialCommunityIcons"
-      />
-      <SportIcons
-        sport="Basketball"
-        iconName="basketball-outline"
-        iconLibrary="Iconicons"
-      />
-      <SportIcons
-        sport="Football"
-        iconName="american-football-outline"
-        iconLibrary="Iconicons"
-      />
-      <SportIcons
-        sport="Hockey"
-        iconName="sports-hockey"
-        iconLibrary="MaterialIcons"
-      />
+      <Login />
     </View>
   );
 };
