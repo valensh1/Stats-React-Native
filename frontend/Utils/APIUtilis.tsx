@@ -36,7 +36,7 @@ class APIUtils {
           returnSecureToken: true,
         }
       );
-      return response.data;
+      return [response.status, response.data];
     } catch (error) {
       Alert.alert(
         'Authentication Failed',

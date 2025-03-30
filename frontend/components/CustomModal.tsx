@@ -6,7 +6,7 @@ interface ModalProps {
   message: string;
 }
 
-const Modal = ({ message }: ModalProps) => {
+const CustomModal = ({ message }: ModalProps) => {
   return (
     <View style={styles.modalContainer}>
       <Text style={styles.message}>{message}</Text>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
 });
-export default Modal;
+export default CustomModal;

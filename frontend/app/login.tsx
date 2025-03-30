@@ -11,9 +11,10 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
-import Button from '../components/Button';
+import CustomButton from '../components/CustomButton';
 import colors from '../Styles/Colors';
 import APIUtils from '../Utils/APIUtilis';
+import AppConstants from '../constants/constants';
 
 interface Credentials {
   emailAddress: string;
@@ -62,24 +63,27 @@ const login = () => {
   };
 
   const loginButtonHandler = async () => {
-    if (credentials.password.length >= 7) {
+    if (credentials.password.length >= AppConstants.minimumPasswordCharacters) {
       try {
         const loggedInUser = await APIUtils.loginUser(
           'signInWithPassword',
           credentials.emailAddress,
           credentials.password
         );
-        console.log(loggedInUser);
-        router.push('/landing-page');
-      } catch (error) {
-        Alert.alert(
-          'Authentication Failed',
-          'Could not log you in. Please check your credentials and try again!'
-        );
-      }
+        console.log('This is the logged in user', loggedInUser);
+        if (loggedInUser && loggedInUser[0] === 200) {
+          router.push('/landing-page');
+        }
+      } catch (error) {}
+    } else {
+      Alert.alert(
+        'Log in error',
+        'Passwords must be at least 7 characters in length. Check your credentials and try again!'
+      );
     }
   };
 
+  //? JSX
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.overallContainer}>
@@ -110,7 +114,7 @@ const login = () => {
           </View>
         </View>
         <View style={styles.loginButton}>
-          <Button
+          <CustomButton
             text={'Log In'}
             buttonBackgroundColor={
               isInputFieldsEmpty

@@ -9,12 +9,12 @@ import {
 } from 'react-native';
 import { useState, useCallback, useEffect } from 'react';
 import InputField from '../components/InputField';
-import Button from '../components/Button';
+import CustomButton from '../components/CustomButton';
 import colors from '../Styles/Colors';
 import APIUtils from '../Utils/APIUtilis';
 import { useRouter } from 'expo-router';
-import Modal from '../components/Modal';
-import AppConstants from './constants/constants';
+import AppConstants from '../constants/constants';
+import ReactNativeModal from '../components/ReactNativeModal';
 
 const { height } = Dimensions.get('window');
 
@@ -94,6 +94,7 @@ const signup = () => {
     }
   };
 
+  //? JSX
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View>
@@ -136,7 +137,7 @@ const signup = () => {
             </View>
           </View>
           <View style={styles.button}>
-            <Button
+            <CustomButton
               text={'Sign Up'}
               buttonBackgroundColor={
                 isInputFieldsEmpty
@@ -148,7 +149,9 @@ const signup = () => {
           </View>
         </View>
         {showModal && (
-          <Modal message="Account successfully created. Please log into account." />
+          <ReactNativeModal
+            message={'Account successfully created. Please log into account.'}
+          />
         )}
       </View>
     </TouchableWithoutFeedback>
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalMessageStyling: {
-    opacity: 0.1,
+    //   opacity: 0.1,
   },
 });
 export default signup;
