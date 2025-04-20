@@ -15,6 +15,7 @@ import CustomButton from '../components/CustomButton';
 import colors from '../Styles/Colors';
 import APIUtils from '../Utils/APIUtilis';
 import AppConstants from '../constants/constants';
+import { useUserContext } from '../store/context/userContext';
 
 interface Credentials {
   emailAddress: string;
@@ -30,6 +31,7 @@ const defaultCredentials: Credentials = {
 
 const login = () => {
   const router = useRouter();
+  const { user, setUser } = useUserContext();
 
   //? HOOKS
   const [credentials, setCredentials] =
@@ -72,6 +74,11 @@ const login = () => {
         );
         console.log('This is the logged in user', loggedInUser);
         if (loggedInUser && loggedInUser[0] === 200) {
+          setUser({
+            idToken: loggedInUser[1].idToken,
+            email: loggedInUser[1].email,
+            displayName: loggedInUser[1].displayName,
+          });
           router.push('/landing-page');
         }
       } catch (error) {}

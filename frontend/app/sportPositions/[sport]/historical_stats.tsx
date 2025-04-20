@@ -3,23 +3,25 @@ import { useEffect, useState } from 'react';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import DropdownComponent from '../../../components/Dropdown';
 import colors from '../../../Styles/Colors';
-import http from '../../../Database/http';
+import { useUserContext } from '../../../store/context/userContext';
+import useHttp from '../../../Database/http';
 
 const HistoricalPlayerStats = () => {
   const placeholderText = '#FFD700';
   const router = useRouter();
   const { stats, calculatedStats } = useLocalSearchParams();
+  const { postData } = useHttp();
 
   //? USE STATE
   const [gameStats, setGameStats] = useState<{
     [key: string]: string | number;
   }>({});
   const [isFocused, setIsFocused] = useState(false);
-  http(); // THIS MAKES A POST REQUEST TO THE FIREBASE DATABASE
 
   //? USE EFFECT
   // Set state upon loading of page to the stats being pushed through expo router to this page from the stat counter page; Need to convert from string back to object and set state accordingly
   useEffect(() => {
+    postData(); // THIS MAKES A POST REQUEST TO THE FIREBASE DATABASE
     if (typeof stats === 'string' && typeof calculatedStats === 'string') {
       setGameStats({ ...JSON.parse(stats), ...JSON.parse(calculatedStats) });
     }
