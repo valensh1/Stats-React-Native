@@ -10,6 +10,10 @@ const HistoricalPlayerStats = () => {
   const placeholderText = '#FFD700';
   const router = useRouter();
   const { stats, calculatedStats } = useLocalSearchParams();
+  console.log(`These are the stats that are being passed in ${stats}`);
+  console.log(
+    `These are the calculated stats that are being passed in ${calculatedStats}`
+  );
   const { postData } = useHttp();
 
   //? USE STATE
@@ -53,7 +57,16 @@ const HistoricalPlayerStats = () => {
           placeholderTextColor={placeholderText}
           style={styles.numberInput}></TextInput>
       </View>
-      <Text>{gameStats.ft}</Text>
+      {/* <Text>{gameStats.ft}</Text> */}
+      {Object.entries(gameStats).map(([key, value]) => {
+        return (
+          <View key={Math.random() * 10}>
+            <Text>{key}</Text>
+            <Text>{value}</Text>
+          </View>
+        );
+      })}
+      ;
     </View>
   );
 };
