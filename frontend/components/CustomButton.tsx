@@ -7,16 +7,18 @@ interface ButtonComponent {
   navigationPath?: string;
   buttonBackgroundColor?: string;
   buttonTextColor?: string;
+  buttonAdditionalStyleProps?: object;
   buttonFunctionOnPress?: () => void; // Pass in a function to be executed upon button press
 }
 
 const { height } = Dimensions.get('window');
 
-const Button = ({
+const CustomButton = ({
   text,
   navigationPath,
   buttonBackgroundColor,
   buttonTextColor,
+  buttonAdditionalStyleProps,
   buttonFunctionOnPress,
 }: ButtonComponent) => {
   const router = useRouter();
@@ -41,6 +43,7 @@ const Button = ({
           backgroundColor:
             buttonBackgroundColor || styles.buttonContainer.backgroundColor,
         },
+        buttonAdditionalStyleProps,
       ]}
       onPress={() => buttonPressHandler()}>
       <Text style={[styles.buttonText, { color: buttonTextColor }]}>
@@ -66,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Button;
+export default CustomButton;

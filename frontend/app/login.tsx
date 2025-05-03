@@ -79,7 +79,7 @@ const login = () => {
             email: loggedInUser[1].email,
             displayName: loggedInUser[1].displayName,
           });
-          router.push('/landing-page');
+          router.replace('(tabs)/home');
         }
       } catch (error) {}
     } else {

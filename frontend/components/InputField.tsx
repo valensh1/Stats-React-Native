@@ -16,6 +16,7 @@ interface InputField {
   focusedBackgroundColor?: string;
   onChangeText?: (text: string) => void;
   secureTextEntry?: boolean;
+  additionalStyleProps?: object;
 }
 
 const { height } = Dimensions.get('window');
@@ -26,6 +27,7 @@ const InputField = ({
   focusedBackgroundColor,
   onChangeText,
   secureTextEntry,
+  additionalStyleProps,
 }: InputField) => {
   //? USE STATE
   const [input, setInput] = useState<string>('');
@@ -41,7 +43,7 @@ const InputField = ({
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.singleFieldContainer}>
+      <View style={[styles.singleFieldContainer, additionalStyleProps]}>
         <Text style={[styles.labels, labelColor && { color: labelColor }]}>
           {label}
         </Text>
@@ -60,7 +62,8 @@ const InputField = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           secureTextEntry={secureTextEntry}
-          value={input}></TextInput>
+          value={input}
+        />
       </View>
     </TouchableWithoutFeedback>
   );
