@@ -6,30 +6,40 @@ import { useUserContext } from '../store/context/userContext';
 import CustomButton from '../components/CustomButton';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import HelperFunctions from '../Utils/HelperFunctions';
+import useHttp from '../Database/http';
 
 export const CreatePlayerPage = () => {
   const { user, setUser } = useUserContext();
 
   const [birthDate, setBirthDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const { savePlayerAccountData } = useHttp();
 
   const onChangeText = (field: string, text: string) => {
     switch (field.toLowerCase()) {
       case 'first name': {
         setUser({ ...user, firstName: text });
+        break;
       }
       case 'last name': {
         setUser({ ...user, lastName: text });
+        break;
       }
       case 'team name': {
         setUser({ ...user, teamName: text });
+        break;
       }
       case 'birth date': {
         setBirthDate(new Date(text));
         setShowDatePicker(false);
         setUser({ ...user, birthDate: text });
+        break;
       }
     }
+  };
+
+  const buttonFunctionOnPress = () => {
+    savePlayerAccountData(user);
   };
 
   return (
@@ -86,6 +96,7 @@ export const CreatePlayerPage = () => {
             marginTop: '5%',
             marginLeft: '0%',
           }}
+          buttonFunctionOnPress={buttonFunctionOnPress}
         />
       </View>
     </View>

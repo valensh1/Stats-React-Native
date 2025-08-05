@@ -28,7 +28,19 @@ const useHttp = () => {
     }
   };
 
-  return { postData }; // Returns `postData` so it can be called in any component
+  const savePlayerAccountData = async (playerData: object) => {
+    try {
+      const response = await axios.post(
+        `${FIREBASE_URL}/users.json?auth=${user.idToken}`,
+        playerData
+      );
+      await console.log(response);
+    } catch (error) {
+      console.error('Unexpected error');
+    }
+  };
+
+  return { postData, savePlayerAccountData }; // Returns `postData` so it can be called in any component
 };
 
 export default useHttp;
