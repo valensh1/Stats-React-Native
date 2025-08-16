@@ -29,6 +29,7 @@ const CustomButton = ({
   const buttonPressHandler = () => {
     if (buttonFunctionOnPress) {
       buttonFunctionOnPress();
+      console.log(`This is the navigation path ${navigationPath}`);
       navigationPath
         ? router.push(`${navigationPath}`)
         : console.log('No navigation path provided');

@@ -87,7 +87,7 @@ export const CreatePlayerPage = () => {
       <View style={styles.button}>
         <CustomButton
           text="Save"
-          navigationPath="(tabs)/stats.tsx"
+          navigationPath="(tabs)/stats"
           buttonBackgroundColor={colors.globalSecondaryColor}
           buttonTextColor={colors.globalAlternateColor}
           buttonAdditionalStyleProps={{
@@ -120,10 +120,12 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: colors.globalAlternateColor,
     marginLeft: '5%',
-    borderRadius: '5%',
+    borderRadius: 8, // use number instead of '%' for RN
     marginTop: '5%',
-    height: '36%',
+    padding: 13, // add padding so inputs don’t touch edges
+    paddingBottom: '10%',
     justifyContent: 'flex-start',
+    flexGrow: 0, // don’t stretch, just hug contents
   },
   birthDateLabel: {
     color: colors.globalSecondaryColor,

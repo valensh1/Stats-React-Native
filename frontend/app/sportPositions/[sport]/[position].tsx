@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     marginBottom: '3%',
     backgroundColor: colors.globalAlternateColor,
+    marginTop: 60,
     padding: 7,
   },
   calculatedStatCategoryText: {
